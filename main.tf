@@ -84,6 +84,7 @@ resource "aws_eip" "nat_ip" {
 resource "aws_subnet" "public_subnet_1" {
     vpc_id = aws_vpc.app_vpc.id
     cidr_block = var.public_cidr_block_1
+    map_public_ip_on_launch = true
     tags = {
         Name = "AlinePublicSubnet1-js"
     }
@@ -92,6 +93,7 @@ resource "aws_subnet" "public_subnet_1" {
 resource "aws_subnet" "public_subnet_2" {
     vpc_id = aws_vpc.app_vpc.id
     cidr_block = var.public_cidr_block_2
+    map_public_ip_on_launch = true
     tags = {
         Name = "AlinePublicSubnet2-js"
     }
@@ -176,6 +178,7 @@ resource "aws_eks_cluster" "eks_cluster" {
     depends_on = [aws_iam_role_policy_attachment.eks_cluster_policy, aws_iam_role_policy_attachment.eks_cluster_ecr_policy]
 }
 
+# Nodes
 resource "aws_eks_node_group" "node_group" {
     cluster_name = aws_eks_cluster.eks_cluster.name
     node_group_name = "default_node_group"
@@ -188,13 +191,16 @@ resource "aws_eks_node_group" "node_group" {
         max_size     = 1
         min_size     = 1
     }
+
+    labels = {
+        nodeGroup = "default_node_group"
+    }
 }
 resource "aws_eks_node_group" "public_node_group" {
     cluster_name = aws_eks_cluster.eks_cluster.name
     node_group_name = "public_node_group"
     node_role_arn = aws_iam_role.eks_cluster_iam_role.arn
     subnet_ids = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
-    
 
     scaling_config {
         desired_size = 1
@@ -202,7 +208,7 @@ resource "aws_eks_node_group" "public_node_group" {
         min_size     = 1
     }
 
-    tags = {
+    labels = {
         nodeGroup = "public_node_group"
     }
 }
