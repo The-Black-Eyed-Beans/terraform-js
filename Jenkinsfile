@@ -3,7 +3,7 @@ pipeline {
   stages{
     stage('terraform-init') {
       steps {
-        sh 'init -backend-config=backend.hcl' 
+        sh 'terraform init -backend-config=backend.hcl' 
       }
     }
     stage('terraform-plan') {
