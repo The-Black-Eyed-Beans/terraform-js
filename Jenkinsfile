@@ -21,9 +21,11 @@ pipeline {
       }
     }
     stage('set-tf-vars'){
-        withCredentials(file(credentialsId: 'input.tfvars', variable: 'input.tfvars'){
+      steps{
+        withCredentials(file(credentialsId: 'input.tfvars', variable: 'input.tfvars')){
           sh 'cp \$input.tfvars .'
         }
+      }
     }
     stage('terraform-plan') {
       steps {
