@@ -22,7 +22,7 @@ pipeline {
     }
     stage('set-tf-vars'){
       steps{
-        withCredentials(file(credentialsId: 'input.tfvars', variable: 'input.tfvars')){
+        withCredentials([file(credentialsId: 'input.tfvars', variable: 'input.tfvars')]){
           sh 'cp \$input.tfvars .'
         }
       }
