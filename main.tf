@@ -63,7 +63,7 @@ resource "aws_internet_gateway" "internet_gateway" {
     depends_on = [aws_vpc.app_vpc]
 }
 resource "aws_eip" "ig_ip" {
-    name = "InternetGatewayEIP_js"
+    tags = { Name = "InternetGatewayEIP_js" }
     depends_on = [aws_internet_gateway.internet_gateway] 
 }
 
@@ -79,7 +79,7 @@ resource "aws_nat_gateway" "nat_gateway" {
     tags = { Name = "NATGateway-js"}
 }
 resource "aws_eip" "nat_ip" {
-    name = "NATGatewayEIP_js"
+    tags = { Name = "NATGatewayEIP-js"}
     depends_on = [aws_internet_gateway.internet_gateway] 
 }
 
