@@ -22,7 +22,7 @@ pipeline {
     }
     stage('set-tf-vars'){
       steps{
-        sh 'sh 'chown -R root:jenkins .'
+        sh 'chown -R root:jenkins .'
         withCredentials([file(credentialsId: 'input.tfvars', variable: 'tfvars')]){
           writeFile file: 'input.tfvars', text: readFile(tfvars)
         }
