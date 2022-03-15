@@ -1,6 +1,10 @@
 pipeline {
   agent any
   
+  environment{
+    
+  }
+  
   tools{
     terraform "Terraform1.1.7"  
   }
@@ -13,12 +17,16 @@ pipeline {
     }
     stage('terraform-plan') {
       steps {
-        sh 'terraform plan -var-file=input.tfvars -no-color'
+        withAWS(credentials: 'jenkins.aws.credentials.js', region: credentials("deployment.region")){
+          sh 'terraform plan -var-file=input.tfvars -no-color'
+        }
       }
     }
     stage('terraform-apply') {
       steps {
-        sh 'terraform apply -var-file=input.tfvars -auto-approve -no-color'
+        withAWS(credentials: 'jenkins.aws.credentials.js', region: credentials("deployment.region")){
+          sh 'terraform apply -var-file=input.tfvars -auto-approve -no-color'
+        }
       }
     }
   }
