@@ -23,7 +23,7 @@ pipeline {
     stage('set-tf-vars'){
       steps{
         withCredentials([file(credentialsId: 'input.tfvars', variable: 'tfvars')]){
-          writeFile([file: 'input.tfvars', text: readFile(tfvars)])
+          //writeFile([file: 'input.tfvars', text: readFile(tfvars)])
         }
       }
     }
