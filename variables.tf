@@ -3,14 +3,24 @@ variable "vpc_cidr_block" {
     description = "The CIDR block for the VPC"
 }
 
-variable "private_cidr_block" {
+variable "private_cidr_block_1" {
     type = string
-    description = "The CIDR block for the private resources"
+    description = "The CIDR block for the first private subnet"
 }
 
-variable "public_cidr_block" {
+variable "private_cidr_block_2" {
     type = string
-    description = "The CIDR block for the public resources"
+    description = "The CIDR block for the second private subnet"
+}
+
+variable "public_cidr_block_1" {
+    type = string
+    description = "The first CIDR block for the public resources"
+}
+
+variable "public_cidr_block_2" {
+    type = string
+    description = "The second CIDR block for the public resources"
 }
 
 variable "aws-region" {
