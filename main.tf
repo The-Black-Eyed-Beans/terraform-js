@@ -62,10 +62,6 @@ resource "aws_internet_gateway" "internet_gateway" {
     }
     depends_on = [aws_vpc.app_vpc]
 }
-resource "aws_eip" "ig_ip" {
-    tags = { Name = "InternetGatewayEIP_js" }
-    depends_on = [aws_internet_gateway.internet_gateway] 
-}
 
 
 
