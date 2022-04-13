@@ -17,22 +17,30 @@ pipeline {
   stages{
     stage('terraform-init') {
       steps {
-        sh 'terraform init -backend-config=backend.hcl' 
+        dir("eks"){
+          sh 'terraform init -backend-config=backend.hcl' 
+        }
       }
     }
     stage('set-tf-vars'){
       steps{
-        sh "aws s3 cp s3://js-env-vars/input.tfvars ."
+        dir("eks"){
+          sh "aws s3 cp s3://js-env-vars/input.tfvars ."
+        }
       }
     }
     stage('terraform-plan') {
       steps {
+        dir("eks"){
           sh 'terraform plan -var-file=input.tfvars -no-color'
+        }
       }
     }
     stage('terraform-apply') {
       steps {
+        dir("eks"){
           sh 'terraform apply -var-file=input.tfvars -auto-approve -no-color'
+        }
       }
     }
   }
