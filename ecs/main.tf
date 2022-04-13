@@ -62,6 +62,7 @@ resource "aws_eip" "nat_ip" {
 resource "aws_subnet" "public_subnet_1" {
     vpc_id = aws_vpc.app_vpc.id
     cidr_block = var.public_cidr_block_1
+    availability_zone = "us-west-1a"
     map_public_ip_on_launch = true
     tags = {
         Name = "AlinePublicSubnet1-js"
@@ -71,6 +72,7 @@ resource "aws_subnet" "public_subnet_1" {
 resource "aws_subnet" "public_subnet_2" {
     vpc_id = aws_vpc.app_vpc.id
     cidr_block = var.public_cidr_block_2
+    availability_zone = "us-west-1c"
     map_public_ip_on_launch = true
     tags = {
         Name = "AlinePublicSubnet2-js"
@@ -102,46 +104,46 @@ resource "aws_route_table_association" "public_route_table_association_2" {
 
 
 
-# Private subnet and route table
-resource "aws_subnet" "private_subnet_1" {
-    vpc_id = aws_vpc.app_vpc.id
-    cidr_block = var.private_cidr_block_1
-    availability_zone = "us-west-1a"
-    tags = {
-        Name = "AlinePrivateSubnet1-js"
-    }
-    depends_on = [aws_vpc.app_vpc]
-}
-resource "aws_subnet" "private_subnet_2" {
-    vpc_id = aws_vpc.app_vpc.id
-    cidr_block = var.private_cidr_block_2
-    availability_zone = "us-west-1c"
-    tags = {
-        Name = "AlinePrivateSubnet2-js"
-    }
-    depends_on = [aws_vpc.app_vpc]
-}
-resource "aws_route_table" "private_route_table" {
-    vpc_id = aws_vpc.app_vpc.id
+# # Private subnet and route table
+# resource "aws_subnet" "private_subnet_1" {
+#     vpc_id = aws_vpc.app_vpc.id
+#     cidr_block = var.private_cidr_block_1
+#     availability_zone = "us-west-1a"
+#     tags = {
+#         Name = "AlinePrivateSubnet1-js"
+#     }
+#     depends_on = [aws_vpc.app_vpc]
+# }
+# resource "aws_subnet" "private_subnet_2" {
+#     vpc_id = aws_vpc.app_vpc.id
+#     cidr_block = var.private_cidr_block_2
+#     availability_zone = "us-west-1c"
+#     tags = {
+#         Name = "AlinePrivateSubnet2-js"
+#     }
+#     depends_on = [aws_vpc.app_vpc]
+# }
+# resource "aws_route_table" "private_route_table" {
+#     vpc_id = aws_vpc.app_vpc.id
 
-    route {
-        cidr_block = "0.0.0.0/0"
-        nat_gateway_id = aws_nat_gateway.nat_gateway.id
-    }
+#     route {
+#         cidr_block = "0.0.0.0/0"
+#         nat_gateway_id = aws_nat_gateway.nat_gateway.id
+#     }
 
-    tags = {
-        Name = "AlinePrivateRT-js"
-    }
-    depends_on = [aws_vpc.app_vpc]
-}
-resource "aws_route_table_association" "private_route_table_1_association" {
-  subnet_id      = aws_subnet.private_subnet_1.id
-  route_table_id = aws_route_table.private_route_table.id
-}
-resource "aws_route_table_association" "private_route_table_2_association" {
-  subnet_id      = aws_subnet.private_subnet_2.id
-  route_table_id = aws_route_table.private_route_table.id
-}
+#     tags = {
+#         Name = "AlinePrivateRT-js"
+#     }
+#     depends_on = [aws_vpc.app_vpc]
+# }
+# resource "aws_route_table_association" "private_route_table_1_association" {
+#   subnet_id      = aws_subnet.private_subnet_1.id
+#   route_table_id = aws_route_table.private_route_table.id
+# }
+# resource "aws_route_table_association" "private_route_table_2_association" {
+#   subnet_id      = aws_subnet.private_subnet_2.id
+#   route_table_id = aws_route_table.private_route_table.id
+# }
 
 # ECS cluster
 resource "aws_ecs_cluster" "ecs_cluster" {
