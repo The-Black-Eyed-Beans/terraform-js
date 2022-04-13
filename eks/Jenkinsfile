@@ -18,6 +18,7 @@ pipeline {
     stage('terraform-init') {
       steps {
         dir("eks"){
+          sh 'ls -a'
           sh 'terraform init -backend-config=backend.hcl' 
         }
       }
