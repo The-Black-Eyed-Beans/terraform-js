@@ -213,6 +213,33 @@ resource "aws_eks_node_group" "public_node_group" {
     }
 }
 
+resource "kubernetes_config_map" "config_map" {
+    metadata {
+      name = "backend-configmap"
+    }
+
+    data = {
+        DB_HOST = "aline-database-instance-1.cpghzbngoldo.us-east-1.rds.amazonaws.com"
+        DB_PORT = "3306"
+        DB_NAME = "alinedb-js"
+    }
+}
+
+resource "kubernetes_secret" "secret" {
+    metadata {
+      name = "secret"
+    }
+
+    type = "Opaque"
+
+    data = {
+        username = "YWRtaW4="
+        password = "cHJhbW9kY2hhbmRyYWthcnRoaWNrYWtiYXIxIQ=="
+        ENCRYPT_SECRET_KEY = "LU4gTlZOQ1dxNEtFREhYTmpzYXpkR1gyMFoxCg=="
+        JWT_SECRET_KEY = "LU4gMXdIcVFGZFVsVXI1VFpOcjF3VENpdXlNMFZ5ZTJMNGpYCg=="
+    }
+}
+
 
 # Load Balancer
 resource "aws_lb" "load_balancer" {
