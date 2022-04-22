@@ -179,7 +179,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 }
 
 # Nodes
-resource "aws_eks_node_group" "node_group" {
+resource "aws_eks_node_group" "private_node_group" {
     cluster_name = aws_eks_cluster.eks_cluster.name
     node_group_name = "private_node_group"
     node_role_arn = aws_iam_role.eks_cluster_iam_role.arn
