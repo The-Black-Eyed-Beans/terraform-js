@@ -185,13 +185,11 @@ resource "aws_eks_node_group" "private_node_group" {
     node_role_arn = aws_iam_role.eks_cluster_iam_role.arn
     subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
     instance_types = ["t2.micro"]
-    taint = [
-        {
-            key = "frontend"
-            value = "true"
-            effect = NO_SCHEDULE
-        }
-    ]
+    taint {
+        key = "frontend"
+        value = "true"
+        effect = "NO_SCHEDULE"
+    }
 
     scaling_config {
         desired_size = 1
@@ -209,13 +207,11 @@ resource "aws_eks_node_group" "public_node_group" {
     node_role_arn = aws_iam_role.eks_cluster_iam_role.arn
     subnet_ids = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
     instance_types = ["t2.micro"]
-    taint = [
-        {
-            key = "frontend"
-            value = "false"
-            effect = NO_SCHEDULE
-        }
-    ]
+    taint {
+        key = "frontend"
+        value = "false"
+        effect = "NO_SCHEDULE"
+    }
 
     scaling_config {
         desired_size = 1
