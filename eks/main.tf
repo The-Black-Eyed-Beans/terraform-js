@@ -181,7 +181,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 # Nodes
 resource "aws_eks_node_group" "node_group" {
     cluster_name = aws_eks_cluster.eks_cluster.name
-    node_group_name = "default_node_group"
+    node_group_name = "private_node_group"
     node_role_arn = aws_iam_role.eks_cluster_iam_role.arn
     subnet_ids = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 
@@ -193,7 +193,7 @@ resource "aws_eks_node_group" "node_group" {
     }
 
     labels = {
-        nodeGroup = "default_node_group"
+        nodeGroup = "private_node_group"
     }
 }
 resource "aws_eks_node_group" "public_node_group" {
